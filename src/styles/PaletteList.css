@@ -1,0 +1,19 @@
+.PaletteList {
+  padding: 1rem;
+}
+
+.PaletteList__header {
+  display: flex;
+  justify-content: space-between;
+  margin: 0 0 1rem;
+}
+
+.PaletteList__nav {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.PaletteList__nav-link {
+  width: 33.33%;
+}

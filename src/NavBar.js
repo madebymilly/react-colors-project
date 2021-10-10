@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Link } from "react-router-dom";
 import Slider from 'rc-slider';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
@@ -41,7 +42,7 @@ class NavBar extends Component {
     return (
       <header className="NavBar">
         <div className="NavBar__logo">
-          <a href="/">react colorpicker</a>
+          <Link to="/">react colorpicker</Link>
         </div>
         <div className="NavBar__slider-container">
           <span>Level: {level}</span>

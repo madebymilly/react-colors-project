@@ -20,7 +20,7 @@ function App(props) {
       <Switch>
         <Route 
           exact 
-          path="/" 
+          path="/react-colors-project/" 
           render={() => <PaletteList palettes={seedColors}/>}
         />
         <Route 

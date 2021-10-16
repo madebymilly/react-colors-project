@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 import { withStyles } from '@mui/styles';
 
 const styles = {
@@ -46,17 +46,20 @@ const styles = {
   },
 }
 
+// in stead of using <Link> we change the history with the goToPalette function.
+// this way we don't have to use div's in an anchor link.
+
 function MiniPalette(props) {
-  const { classes, colors, paletteName: name, emoji, link } = props;
+  const { classes, colors, emoji, id, paletteName: name, goToPalette } = props;
   console.log(props);
   const colorDivs = colors.map(color => (
     <div key={color.name} className={classes.box} style={ { backgroundColor: color.color }}></div>
   ));
   return (
-    <div className={classes.main}>
+    <div className={classes.main} onClick={goToPalette}>
       {/* <Link 
         exact 
-        to={link}
+        to={`/palette/${id}`}
       > */}
         <div className={classes.colors}>{colorDivs}</div>
         <h5 className={classes.title}>{name}<span className={classes.emoji}>{emoji}</span></h5>

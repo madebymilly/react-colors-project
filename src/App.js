@@ -9,7 +9,7 @@ const findPalette = (id) => seedColors.find( p => p.id === id );
 
 const styles = {
   app: {
-    backgroundColor: 'peru',
+    //backgroundColor: 'peru',
   },
 }
 
@@ -21,7 +21,7 @@ function App(props) {
         <Route 
           exact 
           path="/react-colors-project/" 
-          render={() => <PaletteList palettes={seedColors}/>}
+          render={(routeProps) => <PaletteList palettes={seedColors} {...routeProps} />}
         />
         <Route 
           exact 

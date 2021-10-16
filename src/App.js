@@ -1,4 +1,5 @@
 import { Route, Switch } from "react-router-dom";
+import { withStyles } from '@mui/styles';
 import Palette from './Palette';
 import PaletteList from './PaletteList';
 import seedColors from "./seedColors";
@@ -6,9 +7,16 @@ import { generatePalette } from "./colorHelpers";
 
 const findPalette = (id) => seedColors.find( p => p.id === id );
 
-function App() {
+const styles = {
+  app: {
+    backgroundColor: 'peru',
+  },
+}
+
+function App(props) {
+  const { classes } = props;
   return (
-    <div className="App">
+    <div className={classes.app}>
       <Switch>
         <Route 
           exact 
@@ -26,4 +34,4 @@ function App() {
   );
 }
 
-export default App;
+export default withStyles(styles)(App);

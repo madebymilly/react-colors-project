@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import { Link } from "react-router-dom";
 
+import MiniPalette from './MiniPalette';
+
 import './styles/PaletteList.css'
 
 class PaletteList extends Component {
@@ -9,6 +11,7 @@ class PaletteList extends Component {
     const navLinks = palettes.map((palette, i) => 
       <Link 
         exact 
+        key={i}
         className="PaletteList__nav-link" 
         to={`/palette/${palette.id}`}
       >
@@ -24,6 +27,7 @@ class PaletteList extends Component {
         <nav className="PaletteList__nav">
           {navLinks}
         </nav>
+        <MiniPalette />
       </div>
     )
   }

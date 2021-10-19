@@ -37,25 +37,28 @@ class NavBar extends Component {
     });
   }
   render() {
-    const { level, changeLevel } = this.props;
+    const { level, changeLevel, isSingleColor } = this.props;
     const { format } = this.state;
     return (
       <header className="NavBar">
         <div className="NavBar__logo">
-          <Link to="/">react colorpicker</Link>
+          <Link to="/react-colors-project/">react colorpicker</Link>
         </div>
-        <div className="NavBar__slider-container">
-          <span>Level: {level}</span>
-          <div className="NavBar__slider">
-            <Slider 
-              defaultValue={level} 
-              min={100} 
-              max={900} 
-              step={100}
-              onAfterChange={changeLevel} 
-            />
+        {!isSingleColor &&
+          <div className="NavBar__slider-container">
+            <span>Level: {level}</span>
+            <div className="NavBar__slider">
+              <Slider 
+                defaultValue={level} 
+                min={100} 
+                max={900} 
+                step={100}
+                onAfterChange={changeLevel} 
+              />
+            </div>
           </div>
-        </div>
+        }
+        
         <div className="NavBar__select-container">
           <FormControl variant="standard">
             <Select value={format} onChange={this.handleChange}>

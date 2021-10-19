@@ -3,7 +3,7 @@ import React from 'react';
 import { withStyles } from '@mui/styles';
 
 const styles = {
-  main: {
+  root: {
     backgroundColor: 'white',
     borderRadius: '5px',
     padding: '0.5rem',
@@ -50,13 +50,12 @@ const styles = {
 // this way we don't have to use div's in an anchor link.
 
 function MiniPalette(props) {
-  const { classes, colors, emoji, id, paletteName: name, goToPalette } = props;
-  console.log(props);
+  const { classes, colors, emoji, paletteName: name, goToPalette } = props;
   const colorDivs = colors.map(color => (
-    <div key={color.name} className={classes.box} style={ { backgroundColor: color.color }}></div>
+    <div key={color.id} className={classes.box} style={ { backgroundColor: color.color }}></div>
   ));
   return (
-    <div className={classes.main} onClick={goToPalette}>
+    <div className={classes.root} onClick={goToPalette}>
       {/* <Link 
         exact 
         to={`/palette/${id}`}

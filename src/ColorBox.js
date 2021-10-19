@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 
 import './styles/ColorBox.css';
@@ -11,6 +12,7 @@ class ColorBox extends Component {
 			 copied: false
 		}
 		this.handleCopy = this.handleCopy.bind(this)
+		this.handleClick = this.handleClick.bind(this)
 	}
 	handleCopy() {
 		this.setState({
@@ -20,9 +22,14 @@ class ColorBox extends Component {
 			setTimeout(() => this.setState({copied: false}), 2000);
 		});
 	}
+	handleClick(e) {
+		// console.log('stop prop', e);
+		e.stopPropagation();
+	}
 	render() {
-		const { background, name } = this.props;
+		const { background, name, paletteID, id: colorID, showLink } = this.props;
 		const { copied } = this.state;
+		//console.log(this.props);
 		return (
 			<div style={{ background }} className="ColorBox">
 				<div style={{ background }} className={`ColorBox__copy-overlay ${copied && 'ColorBox__copy-overlay--show'}`}></div>
@@ -38,7 +45,16 @@ class ColorBox extends Component {
 						<button className="ColorBox__button">Copy</button>
 					</CopyToClipboard>
 				</div>
-				<span className="ColorBox__more">More</span>
+				{showLink &&
+					<Link 
+						exact 
+						to={`/palette/${paletteID}/${colorID}`}
+						onClick={this.handleClick}
+						className="ColorBox__more"
+					>
+						More
+					</Link>
+				}
 			</div>
 		);
 	}

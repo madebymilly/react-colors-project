@@ -8,6 +8,14 @@
   margin-bottom: -3.5px;
 }
 
+.SingleColorPalette .ColorBox {
+  height: 50%;
+}
+
+.ColorBox--back {
+  background: black;
+}
+
 .ColorBox__content {
   position: absolute;
   width: 100%;
@@ -39,11 +47,16 @@
   border: none;
   opacity: 0;
   cursor: pointer;
+  text-decoration: none;
 }
 
 .ColorBox:hover .ColorBox__button {
   opacity: 1;
   transition: 0.5s;
+}
+
+.ColorBox--back .ColorBox__button {
+  opacity: 1;
 }
 
 .ColorBox__more {

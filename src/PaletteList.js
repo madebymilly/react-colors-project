@@ -3,7 +3,7 @@ import { withStyles } from '@mui/styles';
 import MiniPalette from './MiniPalette';
 
 const styles = {
-  main: {
+  root: {
     backgroundColor: 'blue',
     height: '100vh',
     display: 'flex',
@@ -39,7 +39,7 @@ class PaletteList extends Component {
   render() {
     const { classes, palettes } = this.props;
     return (
-      <div className={classes.main}>
+      <div className={classes.root}>
         <div className={classes.container}>
           <nav className={classes.nav}>
             <h1>React Colors</h1>

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
+import chroma from 'chroma-js';
 
 import './styles/ColorBox.css';
 
@@ -29,9 +30,10 @@ class ColorBox extends Component {
 	render() {
 		const { background, name, paletteID, id: colorID, showLink } = this.props;
 		const { copied } = this.state;
-		//console.log(this.props);
+		const darkColor = chroma(background).luminance() <= 0.08 ? true : false;
+		const lightColor = chroma(background).luminance() >= 0.7 ? true : false;
 		return (
-			<div style={{ background }} className="ColorBox">
+			<div style={{ background }} className={`ColorBox ${darkColor && 'ColorBox--dark'} ${lightColor && 'ColorBox--light'}`}>
 				<div style={{ background }} className={`ColorBox__copy-overlay ${copied && 'ColorBox__copy-overlay--show'}`}></div>
 				<div className={`ColorBox__copy-overlay-info ${copied && 'ColorBox__copy-overlay-info--show'}`}>
 					<h1>copied!</h1>

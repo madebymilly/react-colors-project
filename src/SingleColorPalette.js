@@ -1,52 +1,11 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import { withStyles } from '@mui/styles';
+import styles from './styles/PaletteStyles';
+
 import ColorBox from './ColorBox';
 import NavBar from './NavBar';
 import PaletteFooter from './PaletteFooter';
-import { withStyles } from '@mui/styles';
-
-import './styles/Palette.css'
-
-const styles = {
-  Palette: {
-		height: '100vh',
-		display: 'flex',
-		flexDirection: 'column'
-	},
-	colorBoxes: {
-		height: '90%',
-	},
-	goBack: {
-		background: 'black',
-		width: '20%',
-		height: '50%',
-		margin: '0 auto',
-		display: 'inline-block',
-		position: 'relative',
-		marginBottom: '-3.5px',
-	},
-	goBackButton: {
-		opacity: 1,
-		width: '100px',
-		height: '30px',
-		position: 'absolute',
-		display: 'inline-block',
-		top: '50%',
-		left: '50%',
-		marginLeft: '-50px',
-		marginTop: '-15px',
-		textAlign: 'center',
-		outline: 'none',
-		background: 'rgba(255, 255, 255, 0.3)',
-		fontSize: '1rem',
-		lineHeight: '30px',
-		color: 'white',
-		textTransform: 'uppercase',
-		border: 'none',
-		cursor: 'pointer',
-		textDecoration: 'none',
-	}
-}
 
 class SingleColorPalette extends Component {
 	constructor(props) {
@@ -68,7 +27,6 @@ class SingleColorPalette extends Component {
 		return shades.slice(1); // take away the first one (which is level 50)
 	}
 	changeFormat(val) {
-		//console.log(val);
 		this.setState({ format: val });
 	}
 	render() {

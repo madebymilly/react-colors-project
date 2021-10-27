@@ -1,21 +1,10 @@
 import React, { Component } from 'react';
+import { withStyles } from '@mui/styles';
+import styles from './styles/PaletteStyles';
+
 import ColorBox from './ColorBox';
 import NavBar from './NavBar';
 import PaletteFooter from './PaletteFooter';
-import { withStyles } from '@mui/styles';
-
-import './styles/Palette.css'
-
-const styles = {
-  Palette: {
-		height: '100vh',
-		display: 'flex',
-		flexDirection: 'column'
-	},
-	colorBoxes: {
-		height: '90%',
-	}
-}
 
 class Palette extends Component {
 	constructor(props) {
@@ -29,11 +18,9 @@ class Palette extends Component {
 		this.changeFormat = this.changeFormat.bind(this);
 	}
 	changeLevel(level) {
-		//console.log(level);
 		this.setState({ level });
 	}
 	changeFormat(val) {
-		//console.log(val);
 		this.setState({ format: val });
 	}
 	render() {

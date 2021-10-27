@@ -2,8 +2,20 @@ import React, { Component } from 'react';
 import ColorBox from './ColorBox';
 import NavBar from './NavBar';
 import PaletteFooter from './PaletteFooter';
+import { withStyles } from '@mui/styles';
 
 import './styles/Palette.css'
+
+const styles = {
+  Palette: {
+		height: '100vh',
+		display: 'flex',
+		flexDirection: 'column'
+	},
+	colorBoxes: {
+		height: '90%',
+	}
+}
 
 class Palette extends Component {
 	constructor(props) {
@@ -25,6 +37,7 @@ class Palette extends Component {
 		this.setState({ format: val });
 	}
 	render() {
+		const { classes } = this.props;
 		const { colors, paletteName, emoji, id } = this.props.palette;
 		const { level, format } = this.state;
 		const colorBoxes = colors[level].map(color => (
@@ -39,14 +52,14 @@ class Palette extends Component {
 		));
 
 		return (
-			<div className="Palette">
+			<div className={classes.Palette}>
 				<NavBar 
 					level={level} 
 					changeLevel={this.changeLevel} 
 					handleChange={this.changeFormat}
 					isSingleColor={false}
 				/>
-				<div className="Palette__colors">
+				<div className={classes.colorBoxes}>
 					{colorBoxes}
 				</div>
 				<PaletteFooter paletteName={paletteName} emoji={emoji} />
@@ -54,4 +67,4 @@ class Palette extends Component {
 		);
 	}
 }
-export default Palette;
+export default withStyles(styles)(Palette);

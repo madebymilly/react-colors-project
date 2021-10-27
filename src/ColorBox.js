@@ -151,7 +151,7 @@ class ColorBox extends Component {
 	render() {
 		const { classes, background, name, paletteID, id: colorID, showingFullPalette } = this.props;
 		const { copied } = this.state;
-		console.log(copied);
+		//console.log(copied);
 		// const darkColor = chroma(background).luminance() <= 0.08 ? true : false;
 		// const lightColor = chroma(background).luminance() >= 0.7 ? true : false;
 		return (

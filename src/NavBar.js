@@ -11,7 +11,7 @@ import IconButton from '@mui/material/IconButton';
 import { withStyles } from '@mui/styles';
 import styles from './styles/NavBarStyles';
 import 'rc-slider/assets/index.css';
-import './styles/slider.css';
+
 
 class NavBar extends Component {  
   constructor(props) {

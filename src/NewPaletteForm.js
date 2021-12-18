@@ -14,12 +14,15 @@ import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import Button from '@mui/material/Button';
 
+import DraggableColorBox from './DraggableColorBox';
+
 const drawerWidth = 320;
 
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
   ({ theme, open }) => ({
     flexGrow: 1,
-    padding: theme.spacing(3),
+    height: 'calc(100vh - 64px)',
+    // padding: theme.spacing(3),
     transition: theme.transitions.create('margin', {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
@@ -140,7 +143,7 @@ function PersistentDrawerLeft() {
       <Main open={open}>
         <DrawerHeader />
         {colors.map((color, i) => 
-          <div style={{backgroundColor: color}} key={i}>{color}</div>
+          <DraggableColorBox key={i} color={color} />
         )}
       </Main>
     </Box>

@@ -1,6 +1,5 @@
 import React from 'react'
-// import { withStyles } from '@mui/styles';
-// import styles from './styles/NewPaletteFormStyles';
+import { ChromePicker } from 'react-color';
 
 import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
@@ -13,8 +12,9 @@ import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import Button from '@mui/material/Button';
 
-const drawerWidth = 240;
+const drawerWidth = 320;
 
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
   ({ theme, open }) => ({
@@ -64,6 +64,11 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 function PersistentDrawerLeft() {
 
   const [open, setOpen] = React.useState(false);
+  const [background, setBackground] = React.useState('#fff');
+
+  const handleChangeComplete = (color) => {
+    setBackground(color.hex);
+  }
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -111,9 +116,20 @@ function PersistentDrawerLeft() {
           </IconButton>
         </DrawerHeader>
         <Divider />
+        <Typography variant="h4">Design Your Palette</Typography>
+        <div>
+          <Button variant="contained" color="secondary">Clear Palette</Button>
+          <Button variant="contained" color="primary">Random Color</Button>
+        </div>
+        <ChromePicker 
+          color={background}
+          onChangeComplete={handleChangeComplete}
+        />
+        <Button variant="contained" color="primary">Add Color</Button>
       </Drawer>
       <Main open={open}>
         <DrawerHeader />
+        <span>lorem ipsum... {background}</span>
       </Main>
     </Box>
   );

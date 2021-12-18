@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { ChromePicker } from 'react-color';
 
 import { styled } from '@mui/material/styles';
@@ -63,11 +63,12 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 
 function PersistentDrawerLeft() {
 
-  const [open, setOpen] = React.useState(false);
-  const [background, setBackground] = React.useState('#fff');
+  const [open, setOpen] = useState(false);
+  const [currentColor, setCurrentColor] = useState('#fff');
+  const [colors, setColors] = useState([]);
 
-  const handleChangeComplete = (color) => {
-    setBackground(color.hex);
+  const updateCurrentColor = (color) => {
+    setCurrentColor(color.hex);
   }
 
   const handleDrawerOpen = () => {
@@ -77,6 +78,10 @@ function PersistentDrawerLeft() {
   const handleDrawerClose = () => {
     setOpen(false);
   };
+
+  const addColor = () => {
+    setColors([...colors, currentColor]);
+  }
 
   return (
     <Box sx={{ display: 'flex' }}>
@@ -122,14 +127,21 @@ function PersistentDrawerLeft() {
           <Button variant="contained" color="primary">Random Color</Button>
         </div>
         <ChromePicker 
-          color={background}
-          onChangeComplete={handleChangeComplete}
+          color={currentColor}
+          onChangeComplete={updateCurrentColor}
         />
-        <Button variant="contained" color="primary">Add Color</Button>
+        <Button 
+          variant="contained" 
+          color="primary" 
+          style={{backgroundColor: currentColor}}
+          onClick={addColor}
+        >Add Color</Button>
       </Drawer>
       <Main open={open}>
         <DrawerHeader />
-        <span>lorem ipsum... {background}</span>
+        {colors.map((color, i) => 
+          <div style={{backgroundColor: color}} key={i}>{color}</div>
+        )}
       </Main>
     </Box>
   );

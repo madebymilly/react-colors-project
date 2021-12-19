@@ -1,5 +1,6 @@
-import React, { useState } from 'react'
-import { ChromePicker } from 'react-color';
+import React, { useState, useEffect } from 'react'
+import { ChromePicker } from 'react-color'
+import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator'
 
 import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
@@ -67,8 +68,22 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 function PersistentDrawerLeft() {
 
   const [open, setOpen] = useState(false);
-  const [currentColor, setCurrentColor] = useState('#fff');
+  const [currentColor, setCurrentColor] = useState('#FFFFFF');
   const [colors, setColors] = useState([]);
+  const [newName, setNewName] = useState('');
+
+  useEffect(() => {
+    ValidatorForm.addValidationRule('isNameUnique', value => {
+      return colors.every(
+        ({ name }) => name.toLowerCase() !== value.toLowerCase()
+      );
+    });
+    ValidatorForm.addValidationRule('isColorUnique', value => {
+      return colors.every(
+        ({ color }) => color !== currentColor
+      );
+    });
+  });
 
   const updateCurrentColor = (color) => {
     setCurrentColor(color.hex);
@@ -83,7 +98,9 @@ function PersistentDrawerLeft() {
   };
 
   const addColor = () => {
-    setColors([...colors, currentColor]);
+    const newColor = {color: currentColor, name: newName};
+    setColors([...colors, newColor]);
+    setNewName('');
   }
 
   return (
@@ -133,17 +150,27 @@ function PersistentDrawerLeft() {
           color={currentColor}
           onChangeComplete={updateCurrentColor}
         />
-        <Button 
-          variant="contained" 
-          color="primary" 
-          style={{backgroundColor: currentColor}}
-          onClick={addColor}
-        >Add Color</Button>
+        <ValidatorForm onSubmit={addColor}>
+          <TextValidator 
+            value={newName} 
+            onChange={(e) => setNewName(e.target.value)} 
+            validators={['required', 'isNameUnique', 'isColorUnique']}
+            errorMessages={'Color name is required.', 'Color name already taken.', 'Color already added.'}
+          />
+          <Button 
+            variant="contained" 
+            type="submit" 
+            color="primary"
+          >
+            Add Color
+          </Button>
+        </ValidatorForm>
+        
       </Drawer>
       <Main open={open}>
         <DrawerHeader />
         {colors.map((color, i) => 
-          <DraggableColorBox key={i} color={color} />
+          <DraggableColorBox key={i} color={color.color} name={color.name} />
         )}
       </Main>
     </Box>

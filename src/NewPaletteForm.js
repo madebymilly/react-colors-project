@@ -108,11 +108,11 @@ function PersistentDrawerLeft(props) {
     const newPalette = {
       paletteName: newPaletteName,
       id: newPaletteName.toLowerCase().replace(/ /g, '-'),
-      emoji: 'emoji here', 
+      emoji: '🇳🇱', 
       colors: colors
     };
     props.savePalette(newPalette);
-    props.history.push("/")
+    props.history.push("/react-colors-project/")
   }
 
   return (

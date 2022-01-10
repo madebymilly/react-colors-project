@@ -43,7 +43,7 @@ class NavBar extends Component {
     return (
       <header className={classes.NavBar}>
         <div className={classes.logo}>
-          <Link to="/">react colorpicker</Link>
+          <Link to="/react-colors-project/">react colorpicker</Link>
         </div>
         {!isSingleColor &&
           <div>

@@ -52,7 +52,7 @@ class SingleColorPalette extends Component {
 				<div className={classes.colorBoxes}>
 					{colorBoxes}
 					<div className={classes.goBack}>
-						<Link to={`/palette/${id}`} className={classes.goBackButton}>Go Back</Link>
+						<Link to={`/react-colors-project/palette/${id}`} className={classes.goBackButton}>Go Back</Link>
 					</div>
 				</div>
 				<PaletteFooter paletteName={paletteName} emoji={emoji} />

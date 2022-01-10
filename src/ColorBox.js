@@ -50,7 +50,7 @@ class ColorBox extends Component {
 				{showingFullPalette &&
 					<Link 
 						exact 
-						to={`/palette/${paletteID}/${colorID}`}
+						to={`/react-colors-project/palette/${paletteID}/${colorID}`}
 						onClick={this.handleClick}
 						className={classes.seeMore}
 					>

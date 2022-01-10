@@ -31,22 +31,22 @@ function App(props) {
       <Switch>
         <Route 
           exact
-          path="/palette/new/"
+          path="/react-colors-project/palette/new/"
           render={(routeProps) => <NewPaletteForm savePalette={savePalette} {...routeProps}/>}
         />
         <Route 
           exact 
-          path="/" 
+          path="/react-colors-project/" 
           render={(routeProps) => <PaletteList palettes={allPalettes} {...routeProps} />}
         />
         <Route 
           exact 
-          path="/palette/:id" 
+          path="/react-colors-project/palette/:id" 
           render={(routeProps) => <Palette palette={generatePalette(findPalette(routeProps.match.params.id))} />}
         />
         <Route 
           exact 
-          path="/palette/:paletteID/:colorID" 
+          path="/react-colors-project/palette/:paletteID/:colorID" 
           render={(routeProps) => <SingleColorPalette 
             palette={generatePalette(findPalette(routeProps.match.params.paletteID))} 
             colorID={routeProps.match.params.colorID}

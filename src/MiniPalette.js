@@ -14,7 +14,7 @@ function MiniPalette(props) {
     <div className={classes.root} onClick={goToPalette}>
       {/* <Link 
         exact 
-        to={`/palette/${id}`}
+        to={`/react-colors-project/${id}`}
       > */}
         <div className={classes.colors}>{colorDivs}</div>
         <h5 className={classes.title}>{name}<span className={classes.emoji}>{emoji}</span></h5>

@@ -74,7 +74,7 @@ function PersistentDrawerLeft(props) {
   const [newPaletteName, setNewPaletteName] = useState('');
 
   useEffect(() => {
-    ValidatorForm.addValidationRule('isNameUnique', value => {
+    ValidatorForm.addValidationRule('isColorNameUnique', value => {
       return colors.every(
         ({ name }) => name.toLowerCase() !== value.toLowerCase()
       );
@@ -82,6 +82,11 @@ function PersistentDrawerLeft(props) {
     ValidatorForm.addValidationRule('isColorUnique', value => {
       return colors.every(
         ({ color }) => color !== currentColor
+      );
+    });
+    ValidatorForm.addValidationRule('isPaletteNameUnique', value => {
+      return props.palettes.every(
+        ({ paletteName }) => paletteName.toLowerCase() !== value.toLowerCase()
       );
     });
   });
@@ -139,6 +144,8 @@ function PersistentDrawerLeft(props) {
               name="newPaletteName"
               label="Palette Name"
               onChange={(e) => setNewPaletteName(e.target.value)} 
+              validators={['required', 'isPaletteNameUnique']}
+              errorMessages={['Palette name is required.', 'Palette name already taken.']}
             />
             <Button 
               variant="contained" 
@@ -181,7 +188,7 @@ function PersistentDrawerLeft(props) {
             value={newColorName} 
             name="newColorName"
             onChange={(e) => setNewColorName(e.target.value)} 
-            validators={['required', 'isNameUnique', 'isColorUnique']}
+            validators={['required', 'isColorNameUnique', 'isColorUnique']}
             errorMessages={['Color name is required.', 'Color name already taken.', 'Color already added.']}
           />
           <Button 

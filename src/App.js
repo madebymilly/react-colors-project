@@ -32,7 +32,7 @@ function App(props) {
         <Route 
           exact
           path="/react-colors-project/palette/new/"
-          render={(routeProps) => <NewPaletteForm savePalette={savePalette} {...routeProps}/>}
+          render={(routeProps) => <NewPaletteForm palettes={allPalettes} savePalette={savePalette} {...routeProps}/>}
         />
         <Route 
           exact 

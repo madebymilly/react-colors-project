@@ -65,7 +65,7 @@ const DrawerHeader = styled('div')(({ theme }) => ({
   justifyContent: 'flex-end',
 }));
 
-function PersistentDrawerLeft() {
+function PersistentDrawerLeft(props) {
 
   const [open, setOpen] = useState(false);
   const [currentColor, setCurrentColor] = useState('#FFFFFF');
@@ -103,10 +103,22 @@ function PersistentDrawerLeft() {
     setNewName('');
   }
 
+  const handleSubmit = () => {
+    const newName = 'palette name here';
+    const newPalette = {
+      paletteName: newName,
+      id: newName.toLowerCase().replace(/ /g, '-'),
+      emoji: 'emoji here', 
+      colors: colors
+    };
+    props.savePalette(newPalette);
+    props.history.push("/react-colors-project/")
+  }
+
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
-      <AppBar position="fixed" open={open}>
+      <AppBar position="fixed" open={open} color="default">
         <Toolbar>
           <IconButton
             color="inherit"
@@ -120,6 +132,7 @@ function PersistentDrawerLeft() {
           <Typography variant="h6" noWrap component="div">
             Persistent drawer
           </Typography>
+          <Button variant="contained" color="primary" onClick={handleSubmit}>Save Palette</Button>
         </Toolbar>
       </AppBar>
       <Drawer
@@ -155,7 +168,7 @@ function PersistentDrawerLeft() {
             value={newName} 
             onChange={(e) => setNewName(e.target.value)} 
             validators={['required', 'isNameUnique', 'isColorUnique']}
-            errorMessages={'Color name is required.', 'Color name already taken.', 'Color already added.'}
+            errorMessages={['Color name is required.', 'Color name already taken.', 'Color already added.']}
           />
           <Button 
             variant="contained" 

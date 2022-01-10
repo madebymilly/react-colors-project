@@ -1,3 +1,4 @@
+import { useState} from 'react';
 import { Route, Switch } from "react-router-dom";
 import { withStyles } from '@mui/styles';
 
@@ -9,11 +10,6 @@ import NewPaletteForm from './NewPaletteForm';
 import seedColors from "./seedColors";
 import { generatePalette } from "./colorHelpers";
 
-const findPalette = (id) => seedColors.find( p => p.id === id );
-// const findSingleColorPalette = (palette, colorID) =>
-//   console.log(palette.colors)
-//   //palette.colors.find( c => c.name.toLowerCase() === colorID );
-
 const styles = {
   app: {
     //backgroundColor: 'peru',
@@ -22,18 +18,26 @@ const styles = {
 
 function App(props) {
   const { classes } = props;
+
+  const [allPalettes, setAllPalettes] = useState(seedColors);
+
+  const findPalette = (id) => allPalettes.find( p => p.id === id );
+
+  const savePalette = (newPalette) => {
+    setAllPalettes([...allPalettes, newPalette]);
+  }
   return (
     <div className={classes.app}>
       <Switch>
         <Route 
           exact
           path="/palette/new/"
-          render={() => <NewPaletteForm />}
+          render={(routeProps) => <NewPaletteForm savePalette={savePalette} {...routeProps}/>}
         />
         <Route 
           exact 
           path="/react-colors-project/" 
-          render={(routeProps) => <PaletteList palettes={seedColors} {...routeProps} />}
+          render={(routeProps) => <PaletteList palettes={allPalettes} {...routeProps} />}
         />
         <Route 
           exact 

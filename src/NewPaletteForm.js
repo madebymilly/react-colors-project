@@ -70,7 +70,8 @@ function PersistentDrawerLeft(props) {
   const [open, setOpen] = useState(false);
   const [currentColor, setCurrentColor] = useState('#FFFFFF');
   const [colors, setColors] = useState([]);
-  const [newName, setNewName] = useState('');
+  const [newColorName, setNewColorName] = useState('');
+  const [newPaletteName, setNewPaletteName] = useState('');
 
   useEffect(() => {
     ValidatorForm.addValidationRule('isNameUnique', value => {
@@ -98,21 +99,20 @@ function PersistentDrawerLeft(props) {
   };
 
   const addColor = () => {
-    const newColor = {color: currentColor, name: newName};
+    const newColor = {color: currentColor, name: newColorName};
     setColors([...colors, newColor]);
-    setNewName('');
+    setNewColorName('');
   }
 
   const handleSubmit = () => {
-    const newName = 'palette name here';
     const newPalette = {
-      paletteName: newName,
-      id: newName.toLowerCase().replace(/ /g, '-'),
+      paletteName: newPaletteName,
+      id: newPaletteName.toLowerCase().replace(/ /g, '-'),
       emoji: 'emoji here', 
       colors: colors
     };
     props.savePalette(newPalette);
-    props.history.push("/react-colors-project/")
+    props.history.push("/")
   }
 
   return (
@@ -132,7 +132,20 @@ function PersistentDrawerLeft(props) {
           <Typography variant="h6" noWrap component="div">
             Persistent drawer
           </Typography>
-          <Button variant="contained" color="primary" onClick={handleSubmit}>Save Palette</Button>
+          
+          <ValidatorForm onSubmit={handleSubmit}>
+            <TextValidator 
+              value={newPaletteName}
+              name="newPaletteName"
+              label="Palette Name"
+              onChange={(e) => setNewPaletteName(e.target.value)} 
+            />
+            <Button 
+              variant="contained" 
+              color="primary" 
+              type="submit"
+            >Save Palette</Button>
+          </ValidatorForm>
         </Toolbar>
       </AppBar>
       <Drawer
@@ -165,8 +178,9 @@ function PersistentDrawerLeft(props) {
         />
         <ValidatorForm onSubmit={addColor}>
           <TextValidator 
-            value={newName} 
-            onChange={(e) => setNewName(e.target.value)} 
+            value={newColorName} 
+            name="newColorName"
+            onChange={(e) => setNewColorName(e.target.value)} 
             validators={['required', 'isNameUnique', 'isColorUnique']}
             errorMessages={['Color name is required.', 'Color name already taken.', 'Color already added.']}
           />

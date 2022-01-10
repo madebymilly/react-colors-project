@@ -36,7 +36,7 @@ function App(props) {
         />
         <Route 
           exact 
-          path="/react-colors-project/" 
+          path="/" 
           render={(routeProps) => <PaletteList palettes={allPalettes} {...routeProps} />}
         />
         <Route 

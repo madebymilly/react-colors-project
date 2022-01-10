@@ -108,6 +108,11 @@ function PersistentDrawerLeft(props) {
     setColors([...colors, newColor]);
     setNewColorName('');
   }
+  
+  const deleteBox = (colorName) => {
+    const newColors = colors.filter(color => color.name !== colorName);
+    setColors(newColors);
+  }
 
   const handleSubmit = () => {
     const newPalette = {
@@ -203,8 +208,8 @@ function PersistentDrawerLeft(props) {
       </Drawer>
       <Main open={open}>
         <DrawerHeader />
-        {colors.map((color, i) => 
-          <DraggableColorBox key={i} color={color.color} name={color.name} />
+        {colors.map(color => 
+          <DraggableColorBox key={color.name} color={color.color} name={color.name} deleteBox={deleteBox} />
         )}
       </Main>
     </Box>

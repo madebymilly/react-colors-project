@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { ChromePicker } from 'react-color'
 import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator'
-
+import { arrayMove } from "react-sortable-hoc";
 import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
@@ -15,7 +15,8 @@ import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import Button from '@mui/material/Button';
 
-import DraggableColorBox from './DraggableColorBox';
+import DraggableColorList from './DraggableColorList';
+
 
 const drawerWidth = 320;
 
@@ -67,11 +68,16 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 
 function PersistentDrawerLeft(props) {
 
+  const maxColors = 20;
+  
+
   const [open, setOpen] = useState(false);
   const [currentColor, setCurrentColor] = useState('#FFFFFF');
-  const [colors, setColors] = useState([]);
+  const [colors, setColors] = useState(props.palettes[0].colors);
   const [newColorName, setNewColorName] = useState('');
   const [newPaletteName, setNewPaletteName] = useState('');
+
+  const paletteIsFull = colors.length >= maxColors;
 
   useEffect(() => {
     ValidatorForm.addValidationRule('isColorNameUnique', value => {
@@ -125,8 +131,25 @@ function PersistentDrawerLeft(props) {
     props.history.push("/react-colors-project/")
   }
 
+  const onSortEnd = ({ oldIndex, newIndex }) => {
+    const newColors = arrayMove(colors, oldIndex, newIndex)
+    setColors(newColors);
+  };
+
+  const clearColors = () => {
+    setColors([]);
+  }
+
+  const addRandomColor = () => {
+    // Pick one color from other palettes:
+    const allColors = props.palettes.map( palette => palette.colors ).flat();
+    const rand = Math.floor(Math.random() * allColors.length);
+    const randomColor = allColors[rand];
+    setColors([...colors, randomColor]);
+  }
+
   return (
-    <Box sx={{ display: 'flex' }}>
+    <Box sx={{ display: 'flex', lineHeight: 0 }}>
       <CssBaseline />
       <AppBar position="fixed" open={open} color="default">
         <Toolbar>
@@ -142,7 +165,6 @@ function PersistentDrawerLeft(props) {
           <Typography variant="h6" noWrap component="div">
             Persistent drawer
           </Typography>
-          
           <ValidatorForm onSubmit={handleSubmit}>
             <TextValidator 
               value={newPaletteName}
@@ -181,8 +203,15 @@ function PersistentDrawerLeft(props) {
         <Divider />
         <Typography variant="h4">Design Your Palette</Typography>
         <div>
-          <Button variant="contained" color="secondary">Clear Palette</Button>
-          <Button variant="contained" color="primary">Random Color</Button>
+          <Button 
+            variant="contained" 
+            color="secondary" 
+            onClick={clearColors}>Clear Palette</Button>
+          <Button 
+            variant="contained" 
+            color="primary" 
+            disabled={paletteIsFull}
+            onClick={addRandomColor}>Random Color</Button>
         </div>
         <ChromePicker 
           color={currentColor}
@@ -200,17 +229,18 @@ function PersistentDrawerLeft(props) {
             variant="contained" 
             type="submit" 
             color="primary"
-          >
-            Add Color
-          </Button>
+            disabled={paletteIsFull}
+          >{paletteIsFull ? 'Palette Full' : 'Add Color'}</Button>
         </ValidatorForm>
-        
       </Drawer>
       <Main open={open}>
         <DrawerHeader />
-        {colors.map(color => 
-          <DraggableColorBox key={color.name} color={color.color} name={color.name} deleteBox={deleteBox} />
-        )}
+        <DraggableColorList 
+          colors={colors} 
+          deleteBox={deleteBox} 
+          axis="xy" 
+          onSortEnd={onSortEnd} 
+        />
       </Main>
     </Box>
   );

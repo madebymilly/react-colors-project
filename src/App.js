@@ -17,6 +17,7 @@ const styles = {
 }
 
 function App(props) {
+
   const { classes } = props;
 
   const [allPalettes, setAllPalettes] = useState(seedColors);

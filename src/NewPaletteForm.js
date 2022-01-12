@@ -5,18 +5,14 @@ import { arrayMove } from "react-sortable-hoc";
 import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
-import CssBaseline from '@mui/material/CssBaseline';
-import MuiAppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
-import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import Button from '@mui/material/Button';
 
 import DraggableColorList from './DraggableColorList';
-
+import PaletteFormNav from './PaletteFormNav';
 
 const drawerWidth = 320;
 
@@ -40,23 +36,6 @@ const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
   }),
 );
 
-const AppBar = styled(MuiAppBar, {
-  shouldForwardProp: (prop) => prop !== 'open',
-})(({ theme, open }) => ({
-  transition: theme.transitions.create(['margin', 'width'], {
-    easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.leavingScreen,
-  }),
-  ...(open && {
-    width: `calc(100% - ${drawerWidth}px)`,
-    marginLeft: `${drawerWidth}px`,
-    transition: theme.transitions.create(['margin', 'width'], {
-      easing: theme.transitions.easing.easeOut,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-  }),
-}));
-
 const DrawerHeader = styled('div')(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
@@ -68,14 +47,14 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 
 function PersistentDrawerLeft(props) {
 
+  const { palettes, savePalette } = props;
+
   const maxColors = 20;
   
-
   const [open, setOpen] = useState(false);
   const [currentColor, setCurrentColor] = useState('#FFFFFF');
-  const [colors, setColors] = useState(props.palettes[0].colors);
+  const [colors, setColors] = useState(palettes[0].colors);
   const [newColorName, setNewColorName] = useState('');
-  const [newPaletteName, setNewPaletteName] = useState('');
 
   const paletteIsFull = colors.length >= maxColors;
 
@@ -88,11 +67,6 @@ function PersistentDrawerLeft(props) {
     ValidatorForm.addValidationRule('isColorUnique', value => {
       return colors.every(
         ({ color }) => color !== currentColor
-      );
-    });
-    ValidatorForm.addValidationRule('isPaletteNameUnique', value => {
-      return props.palettes.every(
-        ({ paletteName }) => paletteName.toLowerCase() !== value.toLowerCase()
       );
     });
   });
@@ -120,14 +94,14 @@ function PersistentDrawerLeft(props) {
     setColors(newColors);
   }
 
-  const handleSubmit = () => {
+  const addPalette = (newPaletteName) => {
     const newPalette = {
       paletteName: newPaletteName,
       id: newPaletteName.toLowerCase().replace(/ /g, '-'),
       emoji: '🇳🇱', 
       colors: colors
     };
-    props.savePalette(newPalette);
+    savePalette(newPalette);
     props.history.push("/react-colors-project/")
   }
 
@@ -142,7 +116,7 @@ function PersistentDrawerLeft(props) {
 
   const addRandomColor = () => {
     // Pick one color from other palettes:
-    const allColors = props.palettes.map( palette => palette.colors ).flat();
+    const allColors = palettes.map( palette => palette.colors ).flat();
     const rand = Math.floor(Math.random() * allColors.length);
     const randomColor = allColors[rand];
     setColors([...colors, randomColor]);
@@ -150,38 +124,12 @@ function PersistentDrawerLeft(props) {
 
   return (
     <Box sx={{ display: 'flex', lineHeight: 0 }}>
-      <CssBaseline />
-      <AppBar position="fixed" open={open} color="default">
-        <Toolbar>
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
-            edge="start"
-            sx={{ mr: 2, ...(open && { display: 'none' }) }}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="h6" noWrap component="div">
-            Persistent drawer
-          </Typography>
-          <ValidatorForm onSubmit={handleSubmit}>
-            <TextValidator 
-              value={newPaletteName}
-              name="newPaletteName"
-              label="Palette Name"
-              onChange={(e) => setNewPaletteName(e.target.value)} 
-              validators={['required', 'isPaletteNameUnique']}
-              errorMessages={['Palette name is required.', 'Palette name already taken.']}
-            />
-            <Button 
-              variant="contained" 
-              color="primary" 
-              type="submit"
-            >Save Palette</Button>
-          </ValidatorForm>
-        </Toolbar>
-      </AppBar>
+      <PaletteFormNav 
+        open={open} 
+        handleDrawerOpen={handleDrawerOpen} 
+        palettes={palettes}
+        addPalette={addPalette}
+      />
       <Drawer
         sx={{
           width: drawerWidth,

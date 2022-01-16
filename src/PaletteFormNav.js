@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator'
-import { styled } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import MuiAppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
@@ -10,7 +9,11 @@ import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import Button from '@mui/material/Button';
 
-const drawerWidth = 320;
+import { styled } from '@mui/material/styles';
+import { withStyles } from '@mui/styles';
+import styles from './styles/PaletteFormNavStyles';
+
+const drawerWidth = 360;
 
 const AppBar = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== 'open',
@@ -30,7 +33,7 @@ const AppBar = styled(MuiAppBar, {
 }));
 
 function PaletteFormNav(props) {
-  const { open, handleDrawerOpen, palettes, addPalette } = props;
+  const { classes, open, handleDrawerOpen, palettes, addPalette } = props;
 
   const [newPaletteName, setNewPaletteName] = useState('');
 
@@ -43,7 +46,7 @@ function PaletteFormNav(props) {
   });
   
   return (
-    <div>
+    <div className={classes.root}>
       <CssBaseline />
       <AppBar position="fixed" open={open} color="default">
         <Toolbar>
@@ -57,8 +60,10 @@ function PaletteFormNav(props) {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap component="div">
-            Persistent drawer
+            Create a Palette
           </Typography>
+        </Toolbar>
+        <div className={classes.navBtns}>
           <ValidatorForm onSubmit={() => addPalette(newPaletteName)}>
             <Link to="/react-colors-project/"><Button variant="contained" color="secondary">Go Back</Button></Link>
             <TextValidator 
@@ -75,10 +80,10 @@ function PaletteFormNav(props) {
               type="submit"
             >Save Palette</Button>
           </ValidatorForm>
-        </Toolbar>
+        </div>
       </AppBar>
     </div>
   )
 }
 
-export default PaletteFormNav;
+export default withStyles(styles)(PaletteFormNav);
